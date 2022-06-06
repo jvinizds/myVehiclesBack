@@ -7,7 +7,7 @@ POST {{baseURL}}/veiculos/
 Content-Type: application/json
 
 {
-   "tipo": "joaoviniciuszds@outlook.com",
+   "tipo": "Caminhão",
    "marca": "Honda",
    "modelo": "WRV",
    "cor": "Amarelo!",
