@@ -1,0 +1,16 @@
+//@baseURL = http://localhost:4000/api
+@baseURL = https://myvehiclesback.herokuapp.com/api
+@id = 629d19713047656a1df0a72c
+###
+// POST - Adiciona veiculo
+POST {{baseURL}}/veiculos/
+Content-Type: application/json
+
+{
+   "tipo": "joaoviniciuszds@outlook.com",
+   "marca": "Honda",
+   "modelo": "WRV",
+   "cor": "Amarelo!",
+   "placa": "dfd1458",
+   "renavam": "251561658"
+}
