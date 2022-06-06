@@ -12,5 +12,6 @@ Content-Type: application/json
    "modelo": "WRV",
    "cor": "Amarelo!",
    "placa": "dfd1458",
-   "renavam": "251561658"
+   "renavam": "251561658",
+   "user_id": "629debb8b4f924e7d68968bb"
 }
