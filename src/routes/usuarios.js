@@ -40,19 +40,7 @@ const validaUsuario = [
             minUppercase: 1,
             minSymbols: 1,
             minNumbers: 1
-        }).withMessage('A senha deve conter ao menos 1 letra maiúscula, 1 número e 1 símbolo '),
-    check('ativo')
-        .default(true)
-        .not().isString().withMessage('O valor informado para o campo ativo não pode ser um texto')
-        .not().isInt().withMessage('O valor informado para o campo ativo não pode ser um número')
-        .isBoolean().withMessage('O valor informado para o campo ativo deve ser um booleano (True ou False)'),
-    check('tipo')
-        .default('Cliente')
-        .not().isEmpty().trim().withMessage('É obrigatório informar o tipo do usuário')
-        .isIn(['Admin', 'Cliente']).withMessage('O tipo informado deve ser Admin ou Cliente'),
-    check('avatar')
-        .default('https://ui-avatars.com/api/?background=3700B3&color=FFFFFF&name=Mind')
-        .isURL().withMessage('O endereço do avatar deve ser uma URL válida')
+        }).withMessage('A senha deve conter ao menos 1 letra maiúscula, 1 número e 1 símbolo ')
 ]
 
 
@@ -147,7 +135,6 @@ router.post('/', validaUsuario, async (req, res) => {
             errors: schemaErrors.array()
         }))
     } else {
-        req.body.avatar = `https://ui-avatars.com/api/?background=3700B3&color=FFFFFF&name=${req.body.nome.replace(/ /g, '+')}`
         const salt = await bcrypt.genSalt(10)
         req.body.senha = await bcrypt.hash(req.body.senha, salt)
 
@@ -209,7 +196,6 @@ router.post('/login', validaLogin,
                 errors: schemaErrors.array()
             }))
         }
-
         const { email, senha } = req.body
         try {
             let usuario = await db.collection(nomeCollection).find({ email }).limit(1).toArray()
@@ -243,9 +229,9 @@ router.post('/login', validaLogin,
                 },
                 (err, token) => {
                     if (err) throw err
-                    //setTokenCookie(res, token)
                     res.status(200).json({
-                        access_token: token
+                        access_token: token,
+                        user_id: usuario[0]._id
                     })
 
                 }

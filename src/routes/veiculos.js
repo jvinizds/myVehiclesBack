@@ -1,7 +1,6 @@
 import express from 'express'
 import { connectToDatabase } from '../utils/mongodb.js'
 import { check, validationResult } from 'express-validator'
-
 const router = express.Router()
 const nomeCollection = 'veiculos'
 const { db, ObjectId } = await connectToDatabase()
@@ -11,6 +10,9 @@ const { db, ObjectId } = await connectToDatabase()
  * 
  **********************************************/
 const validaVeiculo = [
+    check('tipo')
+        .not().isEmpty().trim().withMessage('É obrigatório informar o tipo do veiculo')
+        .isIn(['Carro', 'Moto', 'Caminhão', 'Onibus']).withMessage('O tipo informado deve ser carro, moto, caminhão ou onibus'),
     check('marca')
         .not().isEmpty().trim().withMessage('É obrigatório informar a marca do veiculo')
         .isLength({ min: 2 }).withMessage('A marca informada é muito curta. Informe ao menos 2 caracteres')
@@ -59,11 +61,11 @@ router.get('/', async (req, res) => {
 })
 
 /**********************************************
- * GET /veiculos/id/:id
+ * GET /veiculos/user_id/:user_id
  **********************************************/
-router.get("/id/:id", async (req, res) => {
+router.get("/user_id/:user_id", async (req, res) => {
     try {
-        db.collection(nomeCollection).find({ "_id": { $eq: ObjectId(req.params.id) } }).toArray((err, docs) => {
+        db.collection(nomeCollection).find({ "user_id": { $eq: (req.params.user_id) } }).toArray((err, docs) => {
             if (err) {
                 res.status(400).json(err)
             } else {
